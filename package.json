@@ -10,5 +10,9 @@
 	"repository": {
 		"type": "git", 
 		"url":  "http://github.com/azoff/dogejs.git"
+	},
+	"dependencies": {
+		"socket.io": "0.9.16",
+		"node-static": "0.7.2"
 	}
 }

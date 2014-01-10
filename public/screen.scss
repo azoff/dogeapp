@@ -1,0 +1,83 @@
+@import "compass";
+
+html, body {
+	background-color: #444;
+	font-size: 18px;
+	color: #DDD;
+	padding: 0;
+	margin: 0;
+	font-family: Helvetica, Verdana, Arial, Sans;
+	min-width: 320px;
+}
+
+header {
+	padding: 8px 12px;
+	font-size: 1.6em;
+	border-bottom: solid 3px fade-out(white, 0.8);
+	@include box-shadow(0 3px 0 0 fade-out(black, 0.8));
+	background: url(coin.png) right 1.6em no-repeat scroll #666;
+	@include background-size(150px);
+	@include transition(background-position 500ms);
+	&.ready {
+		background-position: right -0.8em;
+	}
+}
+
+#calculator {
+	bottom: 0;
+	position: absolute;
+	width: 100%;
+}
+
+#result {
+	top: 0;
+	right: 0;
+	position: absolute;
+	padding: 8px 12px
+}
+
+#calculate {
+	width: 100%;
+	position: relative;
+	-webkit-appearence: none;
+	line-height: 1;
+	padding: 8px 12px;
+	font-size: 16px;
+	background-color: fade-out(white, 0.9);
+	@include border-radius(0);
+	@include box-shadow(0 0 0 0);
+	border: none 0;
+	color: white;
+	@include transition(background-color 300ms);
+	&:focus {
+		outline: none 0;
+		background-color: fade-out(white, 0.8);
+	}
+}
+
+#rates {
+	margin: 0;
+	padding: 0;
+	li {
+		
+		list-style: none;
+		padding: 8px 12px;
+		font-family: Monaco, Mono;
+		border-bottom: solid 1px fade-out(white, 0.5);
+		
+		strong { 
+			display: inline-block;
+			padding-right: 1em;
+			width: 6em;
+			text-align: right;
+		}
+
+		&:last-child {
+			border-bottom: none;
+		}
+
+	}
+}
+
+.bull { background-color: green; }
+.bear { background-color: red; }
