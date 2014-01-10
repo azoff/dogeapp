@@ -1,0 +1,14 @@
+{
+	"name": "dogeapp",
+	"description": "Dogecoin, Bitcoin, and Dollar Conversions. Using the Cryptsy and Coinbase APIs.",
+	"keywords": "DOGE, BTC, USD, Crypto, Cryptsy, Coinbase",
+	"author": {
+		"name" : "Jonathan Azoff", 
+		"email": "jon@azoffdesign.com", 
+		"url":   "http://azoffdesign.com/"
+	},
+	"repository": {
+		"type": "git", 
+		"url":  "http://github.com/azoff/dogejs.git"
+	}
+}
