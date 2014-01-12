@@ -12,7 +12,7 @@ var io    = require('socket.io');
 	var app     = http.createServer(server.serve.bind(server));
 	var channel = io.listen(app);
 
-	app.listen(8000);
+	app.listen(process.env.PORT || 8080);
 
 	updateBitcoinRate();
 	updateDogecoinRate();
