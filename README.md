@@ -17,10 +17,11 @@ License
 -------
 Coming soon!
 
-ToDo
-----
+To Do
+------
 - Add a license
 - A custom domain
+- Responsive layout
 - Crap browser support
 
 [1]:http://dogecoin.com
