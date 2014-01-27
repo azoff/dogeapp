@@ -19,9 +19,9 @@ Coming soon!
 
 ToDo
 ----
-- Loading indicators
 - Add a license
 - A custom domain
+- Crap browser support
 
 [1]:http://dogecoin.com
 [2]:http://cryptocoincharts.info

@@ -25,7 +25,6 @@
 			result.className = 'ready';
 			usingBtc = cache['doge/btc'].price * cache['btc/usd'].price;
 			usingLtc = cache['doge/ltc'].price * cache['ltc/usd'].price;
-			console.log(usingBtc, usingLtc);
 			if (conv === 'doge_usd') {
 				typeName = " USD";
 				usingBtc *= value;
@@ -36,9 +35,9 @@
 				usingLtc = value / usingLtc;
 			}
 			if (usingBtc > usingLtc) {
-				result.innerHTML = "$" + usingBtc.toFixed(2).toString() + typeName + " <small>via BTC</small>";
+				result.innerHTML = usingBtc.toFixed(2).toString() + typeName + " <small>via BTC</small>";
 			} else {
-				result.innerHTML = "$" + usingLtc.toFixed(2).toString() + typeName + " <small>via LTC</small>";
+				result.innerHTML = usingLtc.toFixed(2).toString() + typeName + " <small>via LTC</small>";
 			}
 		}
 	}
