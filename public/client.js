@@ -1,71 +1,90 @@
+/*global io */
 (function(global, dom, url){
 
 	"use strict";
 
-	var cache = {}; 
-	var calculate = dom.getElementById('calculate')
-	var result = dom.getElementById('result')
-	var rates = dom.getElementById("rates");
-	var socket = io.connect(url.origin);
+	var calculate = dom.getElementById('calculate');
+	var type      = dom.getElementById('type');
+	var result    = dom.getElementById('result');
+	var rates     = dom.getElementById("rates");
+	var socket    = io.connect(url.origin);
+	var cache     = {};
 
-	socket.on('rate', updateRate);
+	socket.on('datakey', listenForData);
 	socket.on('connect', showDogeLogo);
 	calculate.addEventListener('keyup', updateResult, false);
+	type.addEventListener('change', updateResult, false);
 
-	function updateRate(data) {
-		var rate = getRate(data);
-		var className = getClassName(rate.data.amount, data.amount);
-		var innerHTML = getHtml(data);
-		rate.node.className = className;
-		rate.node.innerHTML = innerHTML;
-		rate.data = data;
-		updateResult({ type: className ? 'ratechange' : 'rateupdate' });
-	}
-
-	function updateResult(event) {
-		var oldResult, newResult, className;
+	function updateResult() {
+		var usingBtc, usingLtc, typeName;
 		var value = parseFloat(calculate.value);
-		if (cache.DOGE && cache.BTC && value > 0) {
-			value = value * cache.DOGE.data.amount * cache.BTC.data.amount;
-			newResult = value.toFixed(2);
-			result.innerHTML = newResult + ' USD';
-			if (event.type === 'ratechange') {
-				oldResult = parseFloat(result.innerHTML.split(' ').shift()) || newResult;
-				className = getClassName(oldResult, newResult);
-				result.className = className;
+		var conv  = type.options[type.selectedIndex].value;
+		if (isNaN(value) || value < 0 || Object.keys(cache).length < 4) {
+			result.className = '';
+		} else {
+			result.className = 'ready';
+			usingBtc = cache['doge/btc'].price * cache['btc/usd'].price;
+			usingLtc = cache['doge/ltc'].price * cache['ltc/usd'].price;
+			console.log(usingBtc, usingLtc);
+			if (conv === 'doge_usd') {
+				typeName = " USD";
+				usingBtc *= value;
+				usingLtc *= value;
+			} else {
+				typeName = " DOGE";
+				usingBtc = value / usingBtc;
+				usingLtc = value / usingLtc;
 			}
-		} else {
-			result.innerHTML = 'DOGE';
+			if (usingBtc > usingLtc) {
+				result.innerHTML = "$" + usingBtc.toFixed(2).toString() + typeName + " <small>via BTC</small>";
+			} else {
+				result.innerHTML = "$" + usingLtc.toFixed(2).toString() + typeName + " <small>via LTC</small>";
+			}
 		}
 	}
 
-	function getClassName(before, after) {
-		if (before > after) return 'bear';
-		if (before > after) return 'bull';
-		return '';
+	function listenForData(datakey) {
+		socket.on(datakey, processData);
 	}
 
-	function getHtml(data) {
-		return ['<strong>',data.name,'/',data.currency,'</strong>',data.amount].join('');
+	function processData(data) {
+		data.forEach(processDatum);
 	}
 
-	function getRate(data) {
-		if (data.name in cache) {
-			return cache[data.name];
+	function processDatum(datum) {
+		var old  = datum.id in cache ? cache[datum.id] : null;
+		var rate = cache[datum.id] = newRate(datum);
+		if (old) {
+			var oldPrice   = old.datum.price;
+			var newPrice   = rate.datum.price;
+			rate.className = oldPrice > newPrice ? 'bear' : (oldPrice < newPrice ? 'bull' : '');
+			rates.replaceChild(rate, old);
 		} else {
-			var node = dom.createElement('li');
-			rates.appendChild(node);
-			return cache[data.name] = {
-				node: node,
-				data: data
-			};
+			rates.appendChild(rate);
 		}
-		
+		updateResult();
+	}
+
+	function newRate(datum) {
+		var li      = dom.createElement('li');
+		var strong  = dom.createElement('strong');
+		var span    = dom.createElement('span');
+		var a       = dom.createElement('a');
+		var price   = parseFloat(datum.price);
+		strong.innerText = datum.id;
+		a.href  = "http://" + datum.best_market + ".com";
+		a.innerText  = datum.best_market;
+		span.innerText =  price.toString();
+		li.appendChild(strong);
+		li.appendChild(span);
+		li.appendChild(a);
+		li.datum = datum;
+		li.price = price;
+		return li;
 	}
 
 	function showDogeLogo() {
 		dom.querySelector('header').className = 'ready';
 	}
-	  
 
 })(window, document, location);

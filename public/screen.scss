@@ -1,5 +1,9 @@
 @import "compass";
 
+* {
+	@include box-sizing(border-box);
+}
+
 html, body {
 	background-color: #444;
 	font-size: 18px;
@@ -29,24 +33,38 @@ header {
 	width: 100%;
 }
 
-#result {
-	top: 0;
-	right: 0;
-	position: absolute;
-	padding: 8px 12px
+#controls, #result {
+	position: relative;
+	width: 100%;
 }
 
-#calculate {
-	width: 100%;
-	position: relative;
-	-webkit-appearence: none;
+#result {
+	color: white;
+	line-height: 0;
+	background: black;
+	padding: 0 12px;
+	@include transition(padding 500ms, line-height 500ms);
+	&.ready {
+		line-height: 1;
+		padding: 8px 12px;
+	}
+	small {
+		font-size: smaller;
+		color: #CCC;
+	}
+	text-align: right;
+}
+
+#type, #calculate {
 	line-height: 1;
 	padding: 8px 12px;
 	font-size: 16px;
+	-webkit-appearance: none;
 	background-color: fade-out(white, 0.9);
+	border: none 0;
+	margin: 0;
 	@include border-radius(0);
 	@include box-shadow(0 0 0 0);
-	border: none 0;
 	color: white;
 	@include transition(background-color 300ms);
 	&:focus {
@@ -55,21 +73,64 @@ header {
 	}
 }
 
+#tip {
+	color: #444;
+	font-size: 69%;
+	padding: 4px 6px;
+	text-align: center;
+	background-color: #EEE;
+}
+
+#type {
+	top: 0;
+	right: 0;
+	position: absolute;
+	margin: 1px;
+}
+
+#calculate, #result {
+	width: 100%;
+	padding-right: 8em;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
 #rates {
+
 	margin: 0;
 	padding: 0;
+
 	li {
 		
 		list-style: none;
 		padding: 8px 12px;
 		font-family: Monaco, Mono;
 		border-bottom: solid 1px fade-out(white, 0.5);
-		
-		strong { 
-			display: inline-block;
-			padding-right: 1em;
+
+		strong {
 			width: 6em;
+			text-transform: uppercase;
+			padding-right: 1em;
 			text-align: right;
+		}
+
+		strong, span, a {
+			display: inline-block;
+			vertical-align: middle;
+			line-height: 1;
+		}
+
+		a {
+			float: right;
+			font-size: smaller;
+			line-height: 1.8;
+			color: #CCC;
+			text-decoration: none;
+			cursor: pointer;
+			&:hover {
+				text-decoration: underline;
+			}
 		}
 
 		&:last-child {
@@ -79,5 +140,5 @@ header {
 	}
 }
 
-.bull { background-color: green; }
-.bear { background-color: red; }
+.bull { background-color: #440000; }
+.bear { background-color: #004400; }

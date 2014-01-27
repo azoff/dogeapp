@@ -8,8 +8,15 @@
 		<header>DogeApp</header>
 		<ul id="rates"></ul>
 		<section id="calculator">
-			<input id="calculate" type="text" placeholder="Such Calculate..." />
-			<label id="result" for="calculate">DOGE</label>
+			<div id="controls">
+				<input id="calculate" type="text" placeholder="Convert, wow!" />
+				<select id="type">
+					<option value="doge_usd">DOGE > USD</option>
+					<option value="usd_doge">USD > DOGE</option>
+				</select>
+			</div>
+			<div id="result"></div>
+			<div id="tip">Such Tips! <samp>DMrqfEXRELQs24JGpJfvbEP7Ak4Ru9ztY8</samp></div>
 		</section>
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="client.js"></script>
