@@ -39,7 +39,7 @@ var io    = require('socket.io');
 				if (json) { callback(json); }
 				setTimeout(callee, timeout);
 			});
-		}
+		};
 	}
 
 	function tryParseJson(body) {
@@ -67,7 +67,7 @@ var io    = require('socket.io');
 		emitRate({
 			name: data.primarycode,
 			amount: data.lasttradeprice,
-			currency: data.secondarycode,
+			currency: data.secondarycode
 		});
 	}
 
