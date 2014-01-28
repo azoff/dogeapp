@@ -39,7 +39,9 @@ header {
 	@include transition(background-position 500ms);
 
 	.spinner {
-		float: right;
+		top: 8px;
+		right: 12px;
+		position: absolute;
 		@include opacity(1);
 		@include transition(opacity 500ms);
 		width: 70px;
